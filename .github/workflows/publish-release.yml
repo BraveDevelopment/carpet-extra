@@ -52,9 +52,14 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo
             })).data;
-            console.log('Previous release was: ' + releases[1].name);
+            
+            if (releases.length > 1 && releases[1].name) {
+              console.log('Previous release was: ' + releases[1].name);
+            } else {
+              console.log('No previous release found or name property is missing.');
+            }
             for (let release of releases.slice(1)) {
-              if (release.name.includes(READ_VERSION))
+              if (release.name && release.name.includes(READ_VERSION))
                 core.setFailed('Version number is the same as a previous release!')
             }
   Build-And-Publish:
